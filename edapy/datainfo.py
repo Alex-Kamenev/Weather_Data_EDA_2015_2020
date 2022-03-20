@@ -100,6 +100,12 @@ class DataInfo:
     
     def get_unique(self, column):
         return self._df[column].unique()
+    
+    def get_list_dfs(self, list_of_values, column):
+        df_list = []
+        for i, feature in enumerate(list_of_values):
+            df_list.append(self._df[self._df[column] == feature])
+        return df_list
         
         
     def get_df(self):
@@ -108,14 +114,21 @@ class DataInfo:
     def set_df(self, df):
         self._df = df
         return
-    
-    def plot_temp_high_low(self, high, low, time):
-        plt.figure(figsize=(18, 14))
-        plt.plot(time, high, 'm-.', time, low, 'c:')
-        plt.ylabel('Temperature in degree C°', color='red')
-        plt.title('NY state temp', color='blue')
-        high_legend = mpatches.Patch(color='orange', label='High')
-        low_legend = mpatches.Patch(color='blue', label='Low')
-        plt.legend(handles=[high_legend,low_legend])
-        plt.show()
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
