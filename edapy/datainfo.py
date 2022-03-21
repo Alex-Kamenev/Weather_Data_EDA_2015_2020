@@ -101,12 +101,47 @@ class DataInfo:
     def get_unique(self, column):
         return self._df[column].unique()
     
+    def get_unique_df(self, df, column):
+        return df[column].unique()
+    
     def get_list_dfs(self, list_of_values, column):
         df_list = []
         for i, feature in enumerate(list_of_values):
             df_list.append(self._df[self._df[column] == feature])
         return df_list
-        
+    
+    def get_list_dfs_df(self, df, list_of_values, column):
+        df_list = []
+        for i, feature in enumerate(list_of_values):
+            df_list.append(df[df[column] == feature])
+        return df_list
+
+    def feature_extraction_date(self):
+        self._df['YEAR'], self._df['MONTH'], self._df['DAY'] = self._df['DATE'].dt.year, self._df['DATE'].dt.month, self._df['DATE'].dt.day
+        return
+    
+    def feature_extraction_days_since_jan_1(self):
+        self._df['DAYS_SINCE_JAN_1'] = 0
+        for i, row in self._df.iterrows():
+            value = row['DATE'].timetuple().tm_yday - 1
+            self._df.loc[i, 'DAYS_SINCE_JAN_1'] = value
+    
+    def get_list_of_lists_df_split(self, list_of_dfs, feature):
+    
+        df_i_list_of_dfs_j_features_df = []
+
+        for df in list_of_dfs:    
+            # extract current state of dataframe
+
+            # get unique feature list from dataset
+            list_of_feature = self.get_unique_df(df, feature)
+
+            # get list of dataframes split on feature
+            df_i_list_of_dfs_j_features_df.append(self.get_list_dfs_df(df, list_of_feature, feature))
+
+        return df_i_list_of_dfs_j_features_df
+
+    
         
     def get_df(self):
         return self._df

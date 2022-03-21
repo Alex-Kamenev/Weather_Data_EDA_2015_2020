@@ -56,10 +56,9 @@ def plot_heat_map_per_feature(df, type_of_corr):
     return
 
 def heat_map(df):
-    # Correlation matrix heat map
-    plt.figure(figsize=(28,28))
+    plt.figure(figsize=(32,28))
     cmap = sns.diverging_palette(309, 10, 30, center="light", as_cmap=True)
-    sns.set(font_scale = 2)
+    sns.set(font_scale = 1.7)
     mask = np.zeros_like(df.corr())
     mask[np.triu_indices_from(mask)] = True
     sns.heatmap(df.corr(), mask=mask, linewidths=.1 ,cmap=cmap, annot=True)
@@ -84,8 +83,7 @@ def plot_many(df, base, cat_name, feature_list, ylabel):
     for feature in feature_list:
         plt.plot(df[base], df[feature], label=f'{feature}')
     
-    font = {
-        'size'   : 22}
+    font = {'size': 22}
 
     plt.rc('font', **font)
     
@@ -98,6 +96,32 @@ def plot_many(df, base, cat_name, feature_list, ylabel):
 
     plt.show()
     return
+
+def plot_list_of_list(df_list_of_list, x_feature, y_feature, label_feature, title_feature, xlabel, ylabel, y_method=None):
+
+    for df_outer in df_list_of_list:
+        fig = plt.figure(figsize=(10.0, 7.0), dpi=200)
+        ax = fig.add_axes([0, 0, 1, 1])
+
+        for df_inner in df_outer:
+            x = df_inner[x_feature]
+            if (y_method == None):
+                y = df_inner[y_feature]
+            elif(y_method == 'cumsum'):
+                y = df_inner[y_feature].cumsum()
+
+            label = df_inner[label_feature].unique()
+            title = df_inner[title_feature].unique()
+
+            ax.plot(x, y, label = label[0])
+
+            ax.set_xlabel(xlabel)
+            ax.set_ylabel(ylabel)
+            ax.set_title(title[0])
+
+            ax.legend()
+    return
+
     
     
     
