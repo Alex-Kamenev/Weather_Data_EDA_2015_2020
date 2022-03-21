@@ -64,9 +64,9 @@ class DataInfo:
         return
     
     def missing_bar_plot(self):
-        display(msno.bar(self._df))
-        display(msno.matrix(self._df))
-        display(msno.heatmap(self._df))
+        display(msno.bar(self._df, figsize=(12, 8)))
+        display(msno.matrix(self._df, figsize=(12, 8)))
+        display(msno.heatmap(self._df, figsize=(12, 8)))
         return
     
     def to_date_time(self, name):
