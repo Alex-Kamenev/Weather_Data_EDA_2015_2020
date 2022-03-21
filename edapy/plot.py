@@ -5,30 +5,30 @@ import numpy as np
 import seaborn as sns
 
 def plot_temp_high_low(df):
-        high = df['TMAX'] 
-        low = df['TMIN']
-        time = df['DATE']
-        station = df['NAME'].unique()
-        
-        plt.figure(figsize=(20, 12))
-        plt.grid(color='gray', linestyle='-', linewidth=0.5)
-        plt.plot(time, high, color='crimson')
-        plt.plot(time, low, color='cornflowerblue')
-        plt.xlabel('Dates', color='black')
-        plt.ylabel('Temperature in degree F°', color='black')
-        
-        plt.title(station[0], color='black')
-        
-        high_legend = mpatches.Patch(color='crimson', label='High')
-        low_legend = mpatches.Patch(color='cornflowerblue', label='Low')
-        
-        plt.legend(handles=[high_legend,low_legend])
-        
-        plt.show()
-        return
+    high = df['TMAX'] 
+    low = df['TMIN']
+    time = df['DATE']
+    station = df['NAME'].unique()
+
+    plt.figure(figsize=(16, 10))
+    plt.grid(color='gray', linestyle='-', linewidth=0.5)
+    plt.plot(time, high, color='crimson')
+    plt.plot(time, low, color='cornflowerblue')
+    plt.xlabel('Dates', color='black', fontsize=18)
+    plt.ylabel('Temperature in degree F°', color='black', fontsize=18)
+
+    plt.title(station[0], color='black', fontsize=22)
+
+    high_legend = mpatches.Patch(color='crimson', label='High')
+    low_legend = mpatches.Patch(color='cornflowerblue', label='Low')
+
+    plt.legend(handles=[high_legend,low_legend])
+
+    plt.show()
+    return
 
 def plot_hist(df):
-    df.hist(figsize=(18, 14))
+    df.hist(figsize=(16, 14))
     
 def plot_outliers(df):
     try:
@@ -65,8 +65,39 @@ def heat_map(df):
     sns.heatmap(df.corr(), mask=mask, linewidths=.1 ,cmap=cmap, annot=True)
     plt.yticks(rotation=0);
     return
+
+def join_plot_hue(df, x, y, hue):
+    sns.set_theme(style="whitegrid")
+    plt.rc("legend", fontsize=12)
+    palette = sns.color_palette("husl", 5)
+    j_plot = sns.jointplot(x = x, y = y, data=df, hue = hue, palette=palette, height=12,s=60)
     
+def join_plot_kind(df, x, y, kind):
+    sns.set_theme(style="whitegrid")
+    plt.rc("legend", fontsize=12)
+    j_plot = sns.jointplot(x = x, y = y, data=df, kind=kind, height=10)
     
+def plot_many(df, base, cat_name, feature_list, ylabel):
+    plt.figure(figsize=(16, 10))
+    plt.grid(color='gray', linestyle='-', linewidth=0.5)
+    
+    for feature in feature_list:
+        plt.plot(df[base], df[feature], label=f'{feature}')
+    
+    font = {
+        'size'   : 22}
+
+    plt.rc('font', **font)
+    
+    name = df[cat_name].unique()
+
+    plt.xlabel(base, color='black', fontsize=18)
+    plt.ylabel(ylabel, color='black', fontsize=18)
+
+    plt.title(name[0], color='black', fontsize=22)
+
+    plt.show()
+    return
     
     
     
