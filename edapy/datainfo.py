@@ -12,6 +12,7 @@ class DataInfo:
     
     def describe(self):
         display(self.head())
+        display(self._df.describe())
         display(self.info())
         return
     
